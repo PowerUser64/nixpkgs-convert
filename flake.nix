@@ -35,38 +35,12 @@
                 patchelf --set-interpreter ${pkgs.glibc}/lib/"$interpreter" "$binary"
                 # TODO: reset permissions (use setfacl/getfacl from acl?)
 
-                # Check if it's an elf  # <- NOT NEEDED, patchelf does this
-
-                # # Get file info
-                # info="$(file "$binary")"
-                # # DEBUG:
-                # echo "$info"
-                # # TODO: are there any things that aren't ELF or text?
-                # if echo "$info" | grep -Fq 'ELF'; then
-                #   isElf=true
-                # else
-                #   isElf=false
-                #   # means it needs to be un-patched through other means
-                #   continue
-                # fi
-                #
-                # Get the interpreter of the file (ex: ld-linux-x86-64.so.2)
-                # interpreter="$(echo "$info" | grep -Po '/nix/store/\w+-\w+-.+/lib/\Kld-[^,]+')"
-                #
-                # check if it is a binary (not a script)
-                # if "$isElf"; then
-                #   patchelf --set-interpreter ${pkgs.glibc}/lib/"$interpreter" "$binary"
-                # fi
               done
               # continue to patch other files, scripts, remove rpath (see doc patchelf) etc…
               # …
               # call fpm to create the .deb and put the result in $out
               nfpm --help
 
-              # echo heloooo
-              # sleep 1
-              # mkdir "$out"
-              # echo "testing 123" > "$out"/test
               exit 1
             '';
           };
